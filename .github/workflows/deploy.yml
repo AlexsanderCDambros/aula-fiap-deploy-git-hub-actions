@@ -23,3 +23,6 @@ jobs:
     - name: Copy files to S3
       run: |
         aws s3 sync . s3://${{ secrets.BUCKETNAME }} --delete --exclude ".git/*" --exclude ".github/*" --exclude "README.md"
+    - name: Invalidate Cache CDN
+      run: |
+        aws cloudfront create-invalidation --distribuition-id ${{ secret.CDN_ID }} --paths "/*"
